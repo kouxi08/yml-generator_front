@@ -2,17 +2,7 @@ import React, { useState, ChangeEventHandler, FormEventHandler } from 'react';
 // import hjs from 'highlight.js'
 // import parse from 'html-react-parser';
 import 'highlight.js/styles/hybrid.css'
-
-
-const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const metadata_name= form.get("metadata_name") || "";
-    const containers_name= form.get("containers_name") || "";
-    const containers_image= form.get("containers_image") || "";
-    alert(`metadata_name: ${metadata_name} containers_name: ${containers_name} containers_image: ${containers_image}`);
-  };
-
+import PodForm from './kinds/kubrnetes/pod'
 
 //各サービスの定義(仮)
 const manifest_kinds = [
@@ -20,8 +10,13 @@ const manifest_kinds = [
   {name: "Knative", kinds:["Service"]}
 ];
 
-
 const Yml = () => {
+
+  const [selectedResource, setSelectedResource] = useState(null);
+  const handleResourceClick = (kind: any) => {
+    setSelectedResource(kind);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -31,11 +26,14 @@ const Yml = () => {
         <li>
           <a href='#'>{name}</a>
           <ul>
-            {kinds.map(kind => <li key={kind}><a href='#'>{kind}</a></li>)}
+            {kinds.map(kind =>
+              <li key={kind}>
+                <a href='#' onClick={() => handleResourceClick(kind)}>{kind}</a>
+              </li>)}
           </ul>
         </li>
       ))}
-      {/* とりあえずpodの入力項目をベタ書き */}
+       {selectedResource === "Pod" && <PodForm />}
     </div>
   );
 }
