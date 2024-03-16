@@ -10,6 +10,10 @@ const manifest_kinds = [
   {name: "Knative", kinds:["Service"]}
 ];
 
+// function importAll(r) {
+//   return r.keys().map((fileName) => __filename.replace('./',""))
+// }
+
 const Yml = () => {
 
   const [selectedResource, setSelectedResource] = useState(null);
